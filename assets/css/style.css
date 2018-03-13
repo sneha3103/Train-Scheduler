@@ -1,0 +1,13 @@
+.jumbotron {
+    background-image: url("../images/trainimage2.jpg");
+    padding-bottom: 139px;
+    opacity: 0.8;
+}
+
+#transportation {
+    color: #080808;
+}
+
+#quote {
+    color: #080808;
+}
