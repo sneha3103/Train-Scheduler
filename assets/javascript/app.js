@@ -21,7 +21,7 @@ alert ("hi");
   database.ref().on("child_added" , function (snapshot) {
     var transportation = snapshot.val().transportation;
     var destination = snapshot.val().destination;
-    var firstTrain = snapshot.val().firstTrain;
+    var firstTrainTime = snapshot.val().firstTrainTime;
     var frequency = snapshot.val().frequency;
 
     // console.log(transportation);
@@ -35,14 +35,16 @@ alert ("hi");
     var currentTime = moment();
     console.log(moment);
     //HH represents 24 hour time
-    var firstTransport = moment(firstTrain, "HH:mm");
-    var minAway = firstTransport.diff(currentTime, "minutes");
+    // var firstTransport = moment.unix(firstTrain).format("HH:mm");
+    var firstTransport = moment(firstTrainTime, "HH:mm");
+    // var minAway = firstTransport.diff(currentTime, "minutes");
+    var minAway = moment().diff(moment(firstTransport),"minutes");
 
      $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + firstTransport + "</td><td>" + minAway + "</td></tr>");
     
     //Created a while loop to showcase that while the train time is less than the current time, then to add the frequency. While loop checks the condition first and then runs function. 
-    while (firstTrain < currentTime) {
-        firstTrain.add(frequency, "minutes");
+    while (firstTrainTime < currentTime) {
+        firstTrainTime.add(frequency, "minutes");
     }
 
     console.log("minutes away", minAway);
@@ -65,7 +67,7 @@ alert ("hi");
      database.ref().push({
         transportation : transport,
         destination : dest,
-        firstTrain : time,
+        firstTrainTime : time,
         frequency : freq,
 
      })
