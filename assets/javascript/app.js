@@ -24,16 +24,23 @@ alert ("hi");
     var firstTrain = snapshot.val().firstTrain;
     var frequency = snapshot.val().frequency;
 
-    console.log(transportation);
-    console.log(destination);
-    console.log(firstTrain);
-    console.log(frequency);
-    console.log(snapshot);
+    // console.log(transportation);
+    // console.log(destination);
+    // console.log(firstTrain);
+    // console.log(frequency);
+    // console.log(snapshot);
 
+
+   //Utilize moment.js to parse, validate, manipulate, and display times/dates in javascript
     var currentTime = moment();
+    console.log(moment);
+    //HH represents 24 hour time
     var firstTransport = moment(firstTrain, "HH:mm");
     var minAway = firstTransport.diff(currentTime, "minutes");
 
+     $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + firstTransport + "</td><td>" + minAway + "</td></tr>");
+    
+    //Created a while loop to showcase that while the train time is less than the current time, then to add the frequency. While loop checks the condition first and then runs function. 
     while (firstTrain < currentTime) {
         firstTrain.add(frequency, "minutes");
     }
@@ -44,12 +51,16 @@ alert ("hi");
     $("#submit-button").on("click", function() {
        event.preventDefault();
 
+       $("#traintable").empty();
+
        var transport = $("#transportation-input").val().trim();
        var dest = $("#dest-input").val().trim();
        var time = $("#firsttrain-input").val().trim();
        var freq = $("#freq-input").val().trim();
 
-    //Push information to the database
+    // $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + firstTransport + "</td><td>" + minAway + "</td></tr>");
+
+    //Push information to the root of the object in database. Database. ref is the root of the object. 
 
      database.ref().push({
         transportation : transport,
