@@ -36,21 +36,25 @@ alert ("hi");
     //HH represents 24 hour time
     // var firstTransport = moment.unix(firstTrainTime).format("HH:mm");
     // console.log(firstTransport);
+
+    //to capture first train time.
     var firstTransport = moment(firstTrainTime, "HH:mm");
-
-    var diffTime = moment().diff(moment(firstTransport), "minutes");
-
-    var tRemainder = diffTime % frequency;
-
-    var minutesToTrain = frequency - tRemainder;
-
-    var nextTrain = moment().add(minutesToTrain, "minutes");
-    nextTrain = moment(nextTrain).format("hh:mm");
     
+    //To find the difference from the time now and the first train time. 
+    var diffTime = moment().diff(moment(firstTransport), "minutes");
+    
+    var remainder = diffTime % frequency;
+   
+    var minutesToTrain = frequency - remainder;
+    
+    //add the amount of minutes to the next train and format to the hh:mm. 
+    var nextTrain = moment().add(minutesToTrain, "minutes");
+    nextTrain = moment(nextTrain).format("hh:mm A");
+
     var minAway = firstTransport.diff(currentTime, "minutes");
    
 
-     $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + firstTransport + "</td><td>" + minAway + "</td></tr>");
+     $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + nextTrain + "</td><td>" + minAway + "</td></tr>");
     
     //Created a while loop to showcase that while the train time is less than the current time, then to add the frequency. While loop checks the condition first and then runs function. 
     // while (firstTransport < currentTime) {
