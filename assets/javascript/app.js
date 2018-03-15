@@ -24,30 +24,43 @@ alert ("hi");
     var firstTrainTime = snapshot.val().firstTrainTime;
     var frequency = snapshot.val().frequency;
 
-    // console.log(transportation);
-    // console.log(destination);
-    // console.log(firstTrain);
     // console.log(frequency);
     // console.log(snapshot);
 
 
    //Utilize moment.js to parse, validate, manipulate, and display times/dates in javascript
+
     var currentTime = moment();
-    console.log(moment);
+    // console.log(moment);
+
     //HH represents 24 hour time
-    // var firstTransport = moment.unix(firstTrain).format("HH:mm");
+    // var firstTransport = moment.unix(firstTrainTime).format("HH:mm");
+    // console.log(firstTransport);
     var firstTransport = moment(firstTrainTime, "HH:mm");
-    // var minAway = firstTransport.diff(currentTime, "minutes");
-    var minAway = moment().diff(moment(firstTransport),"minutes");
+
+    var diffTime = moment().diff(moment(firstTransport), "minutes");
+
+    var tRemainder = diffTime % frequency;
+
+    var minutesToTrain = frequency - tRemainder;
+
+    var nextTrain = moment().add(minutesToTrain, "minutes");
+    nextTrain = moment(nextTrain).format("hh:mm");
+    
+    var minAway = firstTransport.diff(currentTime, "minutes");
+   
 
      $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + firstTransport + "</td><td>" + minAway + "</td></tr>");
     
     //Created a while loop to showcase that while the train time is less than the current time, then to add the frequency. While loop checks the condition first and then runs function. 
-    while (firstTrainTime < currentTime) {
-        firstTrainTime.add(frequency, "minutes");
-    }
+    // while (firstTransport < currentTime) {
+    //     firstTransport.add(frequency, "minutes");
+    // }
 
-    console.log("minutes away", minAway);
+    //  var minAway = firstTransport.diff(currentTime, "minutes");
+    //  var minAway = moment().diff(moment(firstTransport),"minutes");
+
+    // console.log("minutes away", minAway);
 
     //When user submits the train information
     $("#submit-button").on("click", function() {
@@ -59,8 +72,6 @@ alert ("hi");
        var dest = $("#dest-input").val().trim();
        var time = $("#firsttrain-input").val().trim();
        var freq = $("#freq-input").val().trim();
-
-    // $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + firstTransport + "</td><td>" + minAway + "</td></tr>");
 
     //Push information to the root of the object in database. Database. ref is the root of the object. 
 
@@ -74,6 +85,15 @@ alert ("hi");
 
     
     })
+
+    //User clears train information    
+    $("#clear-button").on("click", function() {
+        //create a reference to the file to delete
+        var databaseRef = database.ref();
+
+        databaseRef.remove();
+        $("#traintable").empty();
+    });
 
 
 
