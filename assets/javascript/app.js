@@ -24,6 +24,7 @@ alert ("hi");
     var firstTrainTime = snapshot.val().firstTrainTime;
     var frequency = snapshot.val().frequency;
 
+
     // console.log(frequency);
     // console.log(snapshot);
 
@@ -51,21 +52,12 @@ alert ("hi");
     var nextTrain = moment().add(minutesToTrain, "minutes");
     nextTrain = moment(nextTrain).format("hh:mm A");
 
-    var minAway = firstTransport.diff(currentTime, "minutes");
+    var minAway = currentTime.diff(firstTransport, "minutes");
    
 
      $("#traintable").append("<tr><td>" + transportation + "</td><td> " + destination + "</td><td>" + frequency + "</td><td>" + nextTrain + "</td><td>" + minAway + "</td></tr>");
     
-    //Created a while loop to showcase that while the train time is less than the current time, then to add the frequency. While loop checks the condition first and then runs function. 
-    // while (firstTransport < currentTime) {
-    //     firstTransport.add(frequency, "minutes");
-    // }
-
-    //  var minAway = firstTransport.diff(currentTime, "minutes");
-    //  var minAway = moment().diff(moment(firstTransport),"minutes");
-
-    // console.log("minutes away", minAway);
-
+   
     //When user submits the train information
     $("#submit-button").on("click", function() {
        event.preventDefault();
@@ -85,10 +77,10 @@ alert ("hi");
         firstTrainTime : time,
         frequency : freq,
 
-     })
+     }), 
 
     
-    })
+    
 
     //User clears train information    
     $("#clear-button").on("click", function() {
@@ -99,7 +91,9 @@ alert ("hi");
         $("#traintable").empty();
     });
 
+   
 
 
+
+  });
   })
-
